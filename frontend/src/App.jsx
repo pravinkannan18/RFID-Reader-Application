@@ -1,10 +1,10 @@
 import React from 'react'
-import RFIDDashboard from './components/RFIDDashboard'
+import MultiZoneDashboard from './components/MultiZoneDashboard'
 
 function App() {
   return (
     <div className="App">
-      <RFIDDashboard />
+      <MultiZoneDashboard />
     </div>
   )
 }
