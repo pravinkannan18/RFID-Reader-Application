@@ -1,16 +1,82 @@
-# React + Vite
+# RFID Asset Tracking - Next.js Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern Next.js application for real-time RFID asset onboarding and movement tracking.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Asset Onboarding**: Bind RFID tags to loan IDs with automatic scanning
+- **Movement Tracking**: Real-time tracking of gold packets across readers
+- **WebSocket Integration**: Live updates from backend RFID systems
+- **Responsive Design**: Clean, modern UI with Tailwind CSS styling
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
 
-## Expanding the ESLint configuration
+- Node.js 16+ and npm/yarn
+- Backend running on `localhost:8000`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Installation
+
+```bash
+npm install
+```
+
+### Development
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Production Build
+
+```bash
+npm run build
+npm start
+```
+
+## Project Structure
+
+```
+.
+├── app/
+│   ├── layout.tsx          # Root layout
+│   ├── globals.css         # Global styles
+│   ├── page.tsx            # Home page
+│   ├── onboarding/
+│   │   └── page.tsx        # Onboarding page
+│   └── tracking/
+│       └── page.tsx        # Tracking page
+├── lib/
+│   └── websocket.ts        # WebSocket utility
+├── package.json
+├── tsconfig.json
+├── next.config.js
+└── README.md
+```
+
+## API Endpoints
+
+The frontend proxies these endpoints to the backend:
+
+- `POST /bind` - Bind RFID tag to loan ID
+- `POST /track` - Record asset movement
+- `GET /trackings` - Get all tracking records
+- `WS /ws` - WebSocket for real-time updates
+
+## Configuration
+
+Backend URL can be configured in `next.config.js` if needed.
+
+## Conversion Notes
+
+This project was converted from vanilla HTML to Next.js with the following improvements:
+
+- **Component-based architecture** for better maintainability
+- **Client-side rendering** for interactive features
+- **WebSocket utility** for centralized real-time communication
+- **TypeScript** for type safety
+- **Modern CSS** with better styling and responsiveness
+- **File-based routing** following Next.js conventions

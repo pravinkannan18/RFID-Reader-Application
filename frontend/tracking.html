@@ -1,0 +1,45 @@
+<!-- frontend/tracking.html (Simple HTML for Gold Packet Movement Tracking Page) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gold Packet Movement Tracking</title>
+    <script>
+        let ws = new WebSocket("ws://localhost:8000/ws");
+        let trackList = document.getElementById("trackings");
+
+        ws.onmessage = async function(event) {
+            if (event.data.startsWith("TRACK:")) {
+                const epc = event.data.split(":")[1];
+                // Assume reader_id is 'ESP' for second reader
+                const response = await fetch('/track', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({epc: epc, reader_id: 'ESP'})
+                });
+                const result = await response.json();
+                addToList(result);
+            }
+        };
+
+        function addToList(data) {
+            const li = document.createElement("li");
+            li.textContent = `EPC: ${data.epc} tracked by ${data.reader_id} at ${new Date()}`;
+            trackList.appendChild(li);
+        }
+
+        async function loadTrackings() {
+            const response = await fetch('/trackings');
+            const trackings = await response.json();
+            trackings.forEach(addToList);
+        }
+
+        window.onload = loadTrackings;
+    </script>
+</head>
+<body>
+    <h1>Gold Packet Movement Tracking</h1>
+    <ul id="trackings"></ul>
+    <p>Continuous monitoring via ESP RFID. Tracks will appear in real-time.</p>
+</body>
+</html>

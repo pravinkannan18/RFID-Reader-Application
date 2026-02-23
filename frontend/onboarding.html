@@ -1,0 +1,44 @@
+<!-- frontend/onboarding.html (Simple HTML for Asset Onboarding Page) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Asset Onboarding</title>
+    <script>
+        let ws = new WebSocket("ws://localhost:8000/ws");
+
+        ws.onmessage = function(event) {
+            if (event.data.startsWith("EPC:")) {
+                const epc = event.data.split(":")[1];
+                document.getElementById("epc").value = epc;
+                bindEpc();  // Auto-bind on receive
+            }
+        };
+
+        async function bindEpc() {
+            const loanId = document.getElementById("loan_id").value;
+            const epc = document.getElementById("epc").value;
+            if (loanId && epc) {
+                const response = await fetch('/bind', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({loan_id: loanId, epc: epc})
+                });
+                const result = await response.json();
+                alert(`Bound: ${result.loan_id} to ${result.epc}`);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Asset Onboarding</h1>
+    <label>Loan ID:</label>
+    <input type="text" id="loan_id" placeholder="e.g., L120980">
+    <br>
+    <label>EPC (will auto-fill on scan):</label>
+    <input type="text" id="epc" readonly>
+    <br>
+    <button onclick="bindEpc()">Bind Manually (if needed)</button>
+    <p>Note: Scan the gold packet via UART RFID on RPi. It will send EPC here.</p>
+</body>
+</html>

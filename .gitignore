@@ -1,28 +1,9 @@
-# Dependencies
 node_modules/
-**/node_modules/
-dist/
-dist-ssr/
-*.local
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-.venv/
-venv/
-ENV/
-env/
-
-# IDEs
-.vscode/
+dist/   
+build/
+coverage/
+*.log
+.env
+.DS_Store
 .idea/
 
-# OS files
-.DS_Store
-Thumbs.db
-
-# Environment
-.env
-.env.local
-.env.*.local
